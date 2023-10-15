@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Bootstrap theme -->
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/c863d1a06d.js"
+            crossorigin="anonymous"></script>
+        <title>LogIn</title>
+        <style>
+            body{
+                height: 100vh;
+                background: radial-gradient(158.14% 123.77% at 50% 113.71%, #2b3346 0%, #1a1e2a 57.76%, #131720 100%);
+            }
+            .navbar{
+                background-color: #0e0f0f;
+    color: #fff;
+    border: none;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+                <a class="navbar-brand"
+                    href="https://prabhaton.github.io/Code-editor/"><i
+                        class="fa-sharp fa-solid fa-code"
+                        style="color: #333fe6;"></i>WebDevTool</a>
+                <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".navbar-collapse"
+                    aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" id="logout" style="display: none;">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <form name="registration_form"
+                id="registration_form" method="post"
+                action="#" enctype="multipart/form-data">
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="email" style="color: white;"">Email</label>
+                            <input type="text" name="email" id="email"
+                                class="form-control"
+                                placeholder="Enter your email"
+                                style="background: transparent;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" style="color: white;"">New
+                                Password</label>
+                            <input type="password" name="password" id="password"
+                                class="form-control"
+                                placeholder="Enter your password"
+                                style="background: transparent;">
+                            <label for="password"
+                                style="color: white; padding-top: 15px;"">Re-enter
+                                New Password</label>
+                            <input type="password" name="password" id="password"
+                                class="form-control"
+                                placeholder="Enter your password"
+                                style="background: transparent;">
+                        </div>
+                        <button type="button" id="register" name="register"
+                            class="btn btn-success">Register Now</button>
+                    </div><!-- end col -->
+                </form>
+                <div class="col-sm-4">
+
+                </div>
+                <form name="login_form" id="login_form" method="post" action="#"
+                    enctype="multipart/form-data">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="email" style="color: white;"">Email</label>
+                            <input type="text" name="login_email"
+                                id="login_email" class="form-control"
+                                placeholder="Enter your email"
+                                style="background: transparent;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" style="color: white;">Password</label>
+                            <input type="password" name="login_password"
+                                id="login_password" class="form-control"
+                                placeholder="Enter your password"
+                                style="background: transparent;">
+                        </div>
+                        <button type="button" id="login" name="login"
+                            class="btn btn-success">Login</button>
+                    </div><!-- end col -->
+
+                </div><!--  end row -->
+            </form>
+        </div>
+        <br>
+        <center style="color: #fff;">Developed by <a
+                href="https://prabhaton.github.io/Code-editor/">WebDevTool</a></center>
+    </body>
+    <script type="module">
+	  // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+        import{getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAbBF9LnfHl_Ts02IPhh5naFOoDU75j6f4",
+          authDomain: "webdev-auth-11c11.firebaseapp.com",
+          projectId: "webdev-auth-11c11",
+          storageBucket: "webdev-auth-11c11.appspot.com",
+          messagingSenderId: "527483185252",
+          appId: "1:527483185252:web:3431ea7d74dfa1c4845771",
+          measurementId: "G-6Q0C8XBXDH"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+	  const auth = getAuth();
+	//   console.log(app);
+
+	  
+
+	  //----- New Registration code start	  
+	  document.getElementById("register").addEventListener("click", function() {
+		  var email =  document.getElementById("email").value;
+		  var password = document.getElementById("password").value;
+		  //For new registration
+		  createUserWithEmailAndPassword(auth, email, password)
+		  .then((userCredential) => {
+		    // Signed in 
+            document.querySelector("form").reset();
+		    const user = userCredential.user;
+		    console.log(user);
+		    alert("Registration successfully!!");
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    // ..
+		    console.log(errorMessage);
+		    alert(error);
+		  });		  		  
+	  });
+	  //----- End
+
+	  //----- Login code start	  
+	  document.getElementById("login").addEventListener("click", function() {
+		  var email =  document.getElementById("login_email").value;
+		  var password = document.getElementById("login_password").value;
+
+		  signInWithEmailAndPassword(auth, email, password)
+		  .then((userCredential) => {
+		    // Signed in 
+		    const user = userCredential.user;
+		    console.log(user);
+		    alert(user.email+" Login successfully!!!");
+		    document.getElementById('logout').style.display = 'block';
+            document.querySelector("form").reset();
+            window.location.href = "https://prabhaton.github.io/Code-editor/project.html";
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    console.log(errorMessage);
+		    alert(errorMessage);
+		  });		  		  
+	  });
+	  //----- End
+
+	  //----- Logout code start	  
+	  document.getElementById("logout").addEventListener("click", function() {
+		  signOut(auth).then(() => {
+			  // Sign-out successful.
+			  console.log('Sign-out successful.');
+			  alert('Sign-out successful.');
+			  document.getElementById('logout').style.display = 'none';
+			}).catch((error) => {
+			  // An error happened.
+			  console.log('An error happened.');
+			});		  		  
+	  });
+	  //----- End
+
+	</script>
+</html>
